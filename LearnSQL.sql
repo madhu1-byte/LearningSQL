@@ -40,34 +40,76 @@ DELETE FROM Customer
 WHERE CustomerFirstName ='Jason';
 /*Deleted Jason's first name from database */
 
-SELECT Products.ProductID, Products.ProductName, Categories.CategoryName
-FROM Products
-INNER JOIN Categories 
-ON Products.CategoryID = Categories.CategoryID;
+SELECT Customer.FirstName, Customer.LastName, Invoice.InvoiceId
+FROM Customer
+INNER JOIN Invoice
+ON Customer.CustomerId = Invoice.CustomerId;
 /* Joins products and categories - Inner Join*/
 
-SELECT Customers.CustomerName, Orders.OrderID
-FROM Customers
-LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
-ORDER BY Customers.CustomerName;
+
+
+
+
+
+
+SELECT Customer.FirstName, Customer.LastName, Invoice.InvoiceId
+FROM Customer
+LEFT JOIN Invoice
+ON Customer.CustomerId = Invoice.CustomerId
+ORDER BY Customer.LastName;
 /* Combines tables based on a related column - Left Join*/
 
-SELECT Orders.OrderID, Employees.LastName, Employees.FirstName
-FROM Orders
-RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
-ORDER BY Orders.OrderID; 
-/* Right Join */
 
-SELECT Customers.CustomerName, Orders.OrderID
-FROM Customers
-FULL JOIN Orders
-ON Customers.CustomerID = Orders.CustomerID;
-/* All everything tgt - Full Join*/
+SELECT Invoice.InvoiceId, Customer.LastName, Customer.FirstName
+FROM Invoice
+RIGHT JOIN Customer
+ON Invoice.CustomerId = Customer.CustomerId
+ORDER BY Invoice.InvoiceId;
+/* Right Join - Returns all customers and their matching invoices */
 
-SELECT A.CustomerName AS CustomerName1, B.CustomerName AS CustomerName2, A.City
-FROM Customers A, Customers B
-WHERE A.CustomerID <> B.CustomerID
+
+SELECT Customer.FirstName, Customer.LastName, Invoice.InvoiceId
+FROM Customer
+FULL JOIN Invoice
+ON Customer.CustomerId = Invoice.CustomerId;
+/* Full Join - Returns all customers and all invoices, matched where possible */
+
+
+
+SELECT
+    A.FirstName || ' ' || A.LastName AS CustomerName1,
+    B.FirstName || ' ' || B.LastName AS CustomerName2,
+    A.City
+FROM Customer A, Customer B
+WHERE A.CustomerId <> B.CustomerId
 AND A.City = B.City
 ORDER BY A.City;
-/* Self Join - Only matches customers from the same city*/
+/* Self Join - Matches different customers who live in the same city */
 
+
+/*
+SELECT column1, aggregate_function(column2), column3, ...
+FROM table_name
+WHERE condition
+GROUP BY column1, column3
+ORDER BY column_name;
+*/
+
+SELECT Country, COUNT(*) 
+AS NumberOfCustomers
+FROM Customer
+GROUP BY Country;
+/*To group how many customers from each country*/
+
+SELECT Country, COUNT(*) AS NumberOfCustomers
+FROM Customer
+GROUP BY Country
+HAVING COUNT(*) > 3; 
+/* Assuming u only want countries with more than 3 customers*/
+
+/*ORDER BY - sorting*/
+
+SELECT *
+FROM Customer
+ORDER BY FirstName ASC;
+/* Sorted alphabetically from A-Zssssss*/

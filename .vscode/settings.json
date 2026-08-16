@@ -1,0 +1,11 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Chinook",
+            "database": "${workspaceFolder:Learning SQL}/Chinook_Sqlite.sqlite"
+        }
+    ]
+}
